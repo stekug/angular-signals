@@ -20,10 +20,6 @@ import {
   outputFromObservable,
 } from '@angular/core/rxjs-interop';
 
-interface Counter {
-  value: number;
-}
-
 @Component({
   selector: 'home',
   imports: [MatTabGroup, MatTab, CoursesCardListComponent],
@@ -31,15 +27,12 @@ interface Counter {
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  counter = signal<Counter>({
-    value: 100,
-  });
+  values = signal<number[]>([0]);
 
-  increment() {
-    // this.counter.update((currCounter) => currCounter + 1);
-    this.counter.update((currCounter) => ({
-      ...this.counter,
-      value: currCounter.value + 1,
-    }));
+  append() {
+    this.values.update((currValues) => [
+      ...currValues,
+      currValues[currValues.length - 1] + 2,
+    ]);
   }
 }
