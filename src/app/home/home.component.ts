@@ -19,6 +19,7 @@ import {
   outputToObservable,
   outputFromObservable,
 } from '@angular/core/rxjs-interop';
+import { CoursesServiceWithFetch } from '../services/courses-fetch.service';
 
 @Component({
   selector: 'home',
@@ -27,15 +28,12 @@ import {
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  counter = signal(0);
+  courses = signal<Course[]>([]);
 
-  constructor() {
-    effect(() => {
-      console.log(`counter val: ${this.counter()}`);
-    });
-  }
+  courseService = inject(CoursesServiceWithFetch);
 
-  increment() {
-    this.counter.update((currCounter) => currCounter + 1);
+  async loadCourses() {
+    const courses = await this.courseService.loadAllCourses();
+    this.courses.set(courses);
   }
 }
