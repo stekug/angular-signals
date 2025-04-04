@@ -27,12 +27,15 @@ import {
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  values = signal<number[]>([0]);
+  counter = signal(0);
 
-  append() {
-    this.values.update((currValues) => [
-      ...currValues,
-      currValues[currValues.length - 1] + 2,
-    ]);
+  constructor() {
+    effect(() => {
+      console.log(`counter val: ${this.counter()}`);
+    });
+  }
+
+  increment() {
+    this.counter.update((currCounter) => currCounter + 1);
   }
 }
